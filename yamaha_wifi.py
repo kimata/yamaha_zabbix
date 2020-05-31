@@ -18,27 +18,6 @@ USER: 「ユーザ名」
 PASS: 「パスワード」
 """
 
-# WLX にログインしてAmazon の購入履歴データから，時系列グラフを生成します．
-
-# Arguments:
-#   ADDR              WLX402/WLX312 IP アドレス
-
-# Options:
-#   -f CONF           ログイン情報を記載した YAML ファイル
-# WLX にログインしてAmazon の購入履歴データから，時系列グラフを生成します．
-
-# Arguments:
-#   ADDR              WLX402/WLX312 IP アドレス
-
-# Options:
-#   -f CONF           ログイン情報を記載した YAML ファイル
-
-
-# CONF には次の形式で，ログインするためのユーザ名とパスワードを記載しておく．
-
-# USER: 「ユーザ名」
-# PASS: 「パスワード」
-
 from docopt import docopt
 
 import yaml
