@@ -69,7 +69,6 @@ def get_data(addr, device, login_config):
 
 opt = docopt(__doc__)
 
-addr = '192.168.2.10'
 if opt.get('-c'):
     conf_file = opt.get('CONF')
 else:
