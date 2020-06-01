@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Usage: yamaha_wifi.py [-h] -c CONF ADDR
+Usage: yamaha_wifi.py [-h] [-c CONF] -t TYPE ADDR
 
 WLX にログインしてAmazon の購入履歴データから，時系列グラフを生成します．
 
@@ -10,9 +10,14 @@ Arguments:
   ADDR              WLX402/WLX312 IP アドレス
 
 Options:
-  -f CONF           ログイン情報を記載した YAML ファイル
+  -t TYPE           WLX の機種名
+                    現状対応しているのは，WLX402, WLX312．
 
-CONF には次の形式で，ログインするためのユーザ名とパスワードを記載しておく．
+  -c CONF           ログイン情報を記載した YAML ファイル
+                    指定しなかった場合，カレントディレクトリの yamaha_wifi_config.yml
+                    を使用します．
+
+CONF には次の形式で，ログインするためのユーザ名とパスワードを記載しておきます．
 
 USER: 「ユーザ名」
 PASS: 「パスワード」
@@ -25,6 +30,8 @@ import urllib.request
 import base64
 import re
 from lxml import html
+
+DEFAULT_CONF_FILE = 'yamaha_wifi_config.yml'
 
 class wlx402:
     ITEM_MAP = [
@@ -60,15 +67,19 @@ def get_data(addr, device, login_config):
     return device.get_map(page)
 
 
-conf_file = docopt(__doc__).get('CONF')
-addr = docopt(__doc__).get('ADDR')
+opt = docopt(__doc__)
+
+addr = '192.168.2.10'
+if opt.get('-c'):
+    conf_file = opt.get('CONF')
+else:
+    conf_file = DEFAULT_CONF_FILE
+
+dev_type_str = opt.get('-t').lower()
+if not re.match('^wlx(402|312)$', dev_type_str):
+    exit('ERROR: Device type {0} is not supported.'.format(dev_type_str))
 
 config = yaml.load(open(conf_file, 'r'), Loader=yaml.BaseLoader)
-addr = '192.168.2.10'
-data = get_data(addr, wlx402, config)
+data = get_data(opt.get('ADDR'), eval(dev_type_str), config)
 
 print(data)
-
-
-                                          
-                                          
