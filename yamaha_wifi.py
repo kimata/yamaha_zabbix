@@ -46,7 +46,7 @@ class wlx402:
     def get_map(page):
         value_map = {}
         for item_def in wlx402.ITEM_MAP:
-            xpath = '//h3//*[contains(text(), "{0:s}")]/../..//td[contains(text(), "{1:s}")]/../td[2]'.format(
+            xpath = '//h3//*[contains(text(), "{0:s}")]/../..//td[contains(text(), "{1:s}")]/following-sibling::td'.format(
                 item_def[0], item_def[1]
             )
             value = page.xpath(xpath)[0].text.strip()
