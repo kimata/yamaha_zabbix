@@ -52,7 +52,26 @@ class wlx402:
             value = page.xpath(xpath)[0].text.strip()
             value_map[item_def[2]] = int(re.search('[0-9]*', value).group())
         return value_map
-        
+
+class wlx312:
+    ITEM_MAP = [
+        [ 'システム情報', 	'CPU稼働率',	'cpu_usage' ],
+        [ 'システム情報', 	'メモリ使用率', 'mem_usage' ],
+        [ '無線情報 2.4GHz', 	'接続端末台数', '2ghz_client'],
+        [ '無線情報 5GHz(1)', 	'接続端末台数', '5ghz_client'],
+    ]
+    def gen_url(addr):
+        return 'http://{0:s}/manage-system.html'.format(addr)
+    def parse_table(page):
+        value_map = {}
+        for item_def in wlx312.ITEM_MAP:
+            xpath = '//h3//*[contains(text(), "{0:s}")]/../..//td[contains(text(), "{1:s}")]/following-sibling::td'.format(
+                item_def[0], item_def[1]
+            )
+            value = page.xpath(xpath)[0].text.strip()
+            value_map[item_def[2]] = int(re.search('[0-9]*', value).group())
+        return value_map
+
 def get_data(addr, device, login_config):
     url = device.gen_url(addr)
     
