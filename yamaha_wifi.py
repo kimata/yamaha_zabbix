@@ -43,14 +43,14 @@ class wlx402:
     ]
     def gen_url(addr):
         return 'http://{0:s}/cgi-bin/admin/manage-system.sh'.format(addr)
-    def get_map(page):
+    def parse_table(page):
         value_map = {}
         for item_def in wlx402.ITEM_MAP:
             xpath = '//h3//*[contains(text(), "{0:s}")]/../..//td[contains(text(), "{1:s}")]/following-sibling::td'.format(
                 item_def[0], item_def[1]
             )
             value = page.xpath(xpath)[0].text.strip()
-            value_map[item_def[2]] = re.search('[0-9.]*', value).group()
+            value_map[item_def[2]] = int(re.search('[0-9]*', value).group())
         return value_map
         
 def get_data(addr, device, login_config):
@@ -64,7 +64,7 @@ def get_data(addr, device, login_config):
     )
     page = html.fromstring(urllib.request.urlopen(req).read())
 
-    return device.get_map(page)
+    return device.parse_table(page)
 
 
 opt = docopt(__doc__)
