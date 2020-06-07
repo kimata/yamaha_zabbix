@@ -4,7 +4,7 @@
 """
 Usage: yamaha_wifi.py [-h] [-c CONF] -t TYPE ADDR
 
-WLX にログインしてAmazon の購入履歴データから，時系列グラフを生成します．
+WLX にログインし，SNMP で取得できない機器情報を取得します．
 
 Arguments:
   ADDR              WLX402/WLX312 IP アドレス
@@ -17,7 +17,8 @@ Options:
                     指定しなかった場合，カレントディレクトリの yamaha_wifi_config.yml
                     を使用します．
 
-CONF には次の形式で，ログインするためのユーザ名とパスワードを記載しておきます．
+CONF で指定するファイルには，次の形式でログインするための
+ユーザ名とパスワードを記載しておきます．
 
 USER: 「ユーザ名」
 PASS: 「パスワード」
