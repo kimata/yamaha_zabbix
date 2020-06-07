@@ -26,6 +26,7 @@ PASS: 「パスワード」
 
 from docopt import docopt
 
+import os
 import yaml
 import urllib.request
 import base64
@@ -92,7 +93,10 @@ opt = docopt(__doc__)
 if opt.get('-c'):
     conf_file = opt.get('CONF')
 else:
-    conf_file = DEFAULT_CONF_FILE
+    conf_file =  os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        DEFAULT_CONF_FILE
+    )
 
 dev_type_str = opt.get('-t').lower()
 if not re.match('^wlx(402|312)$', dev_type_str):
